@@ -15,7 +15,6 @@ module.exports = {
                 "linux": {
                     "publish": [{
                         "provider": "github",
-                        "token": "3b9fb39a564e8bd7c21c0abcf73ac0f9e770317b",
                         "repo": "electron-update-app"
                     }]
                 }
