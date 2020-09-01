@@ -13,7 +13,10 @@ module.exports = {
                     "allowToChangeInstallationDirectory": "true"
                 },
                 "linux": {
-                    "publish": "github"
+                    "publish": [{
+                        "provider": "github",
+                        "repo": "electron-update-app"
+                    }]
                 }
             }
         }

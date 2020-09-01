@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, protocol, BrowserWindow } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -8,6 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+autoUpdater.checkForUpdates()
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -39,6 +41,10 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
+
+  win.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
 }
 
 // Quit when all windows are closed.
@@ -87,3 +93,11 @@ if (isDevelopment) {
     })
   }
 }
+
+autoUpdater.on('update-available', () => {
+  win.webContents.send('update_available')
+})
+
+autoUpdater.on('update-downloaded', () => {
+  win.webContents.send('update_downloaded')
+})
